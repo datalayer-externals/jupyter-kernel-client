@@ -288,7 +288,10 @@ class KernelManager(ConnectionFileMixin):
         """
         self.kernel_id = self.kernel_id or kw.pop('kernel_id', str(uuid.uuid4()))
         # save kwargs for use in restart
-        self._launch_args = kw.copy()
+        params = kw['params']
+        self._launch_args = kw.copy().pop('params')
+        for param in params.items():
+            self._launch_args[param[0]] = param[1]
         if self.provisioner is None:  # will not be None on restarts
             self.provisioner = KPF.instance(parent=self.parent).create_provisioner_instance(
                 self.kernel_id,

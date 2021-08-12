@@ -53,6 +53,7 @@ def launch_kernel(
     Popen instance for the kernel subprocess
     """
 
+
     # Popen will fail (sometimes with a deadlock) if stdin, stdout, and stderr
     # are invalid. Unfortunately, there is in general no way to detect whether
     # they are valid.  The following two blocks redirect them to (temporary)
@@ -77,6 +78,7 @@ def launch_kernel(
     env = env if (env is not None) else os.environ.copy()
 
     kwargs = kw.copy()
+    del kwargs['params']
     main_args = dict(
         stdin=_stdin,
         stdout=_stdout,
